@@ -80,6 +80,7 @@ describe('example Swag Labs app', () => {
         expect(true).to.equal(true)
         cy.log(helpers.LOCATORS.ProductsPage)
     })
+    
     it('Slould Visit web site', () => {
         helpers.visit();
     })
@@ -89,7 +90,6 @@ describe('example Swag Labs app', () => {
         helpers.logIn(USERS.standard)
         helpers.verifyInProductsPage()
     })
-
 
     it('add 2 items to cart from individual item page', () => {
         helpers.visit()
@@ -107,8 +107,6 @@ describe('example Swag Labs app', () => {
         helpers.backToProducts()
         helpers.verifyCartCount(2)
     });
-
-
 
     //this case fail in problm user 
     it('add item to chart using Button', () => {
@@ -131,7 +129,6 @@ describe('example Swag Labs app', () => {
         helpers.verifyItemInCart(ITEMS.Light)
         helpers.removeFromCart(ITEMS.Light.name)
         helpers.continueShopping()
-
     });
 
     it('delete item from cart from products page', () => {
@@ -155,10 +152,10 @@ describe('example Swag Labs app', () => {
         helpers.logIn(USERS.standard)
         helpers.verifyInProductsPage()
         let pricesBeforeSort = helpers.getPrices()
-        //verify not sorted
+        //verify not sorted ?
         helpers.selectSortOption(SORTOPTIONS.priceDesinding)
         const pricesAfterSort = helpers.getPrices()
-        //verify sorted 
+        //verify sorted ?
     });
 
     it('sort products according to their prices Asinding', () => {
@@ -166,8 +163,6 @@ describe('example Swag Labs app', () => {
         helpers.logIn(USERS.standard)
         helpers.verifyInProductsPage()
         helpers.selectSortOption(SORTOPTIONS.priseAsinding)
-
-        // Extract prices after sorting
         const pricesAfterSort = helpers.getPrices();
         //verify sorting  ??
     })
@@ -179,10 +174,8 @@ describe('example Swag Labs app', () => {
         helpers.logIn(USERS.standard)
         helpers.verifyInProductsPage()
         helpers.selectSortOption(SORTOPTIONS.nameAsinding)
-        // Click to sort products
         helpers.getNames()
         //verify is sorted
-
     });
 
     it('visit cart and checkout the order', () => {
