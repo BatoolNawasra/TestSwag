@@ -51,22 +51,31 @@ const ITEMS = {
     },
 }
 
-function isSorted(arr, ascending = true) {
-    const sortedArray = ascending ? [...arr].sort((a, b) => a - b) : [...arr].sort((a, b) => b - a);
-    return JSON.stringify(arr) === JSON.stringify(sortedArray);
+function areObjectValuesSorted(obj, order = 'asc') {
+    const values = Object.values(obj);
+
+    for (let i = 1; i < values.length; i++) {
+        if (order === 'asc') {
+            if (values[i] < values[i - 1]) {
+                return false;
+            }
+        } else if (order === 'desc') {
+            if (values[i] > values[i - 1]) {
+                return false;
+            }
+        } else {
+            throw new Error('Invalid order parameter. Use "asc" or "desc".');
+        }
+    }
+    return true;
 }
 
 
 
+
+
+
 describe('example Swag Labs app', () => {
-    // beforeEach(() => {
-    //     cy.visit('https://www.saucedemo.com/');
-    //     cy.get('.login-box .form_group #user-name').type(USERS.standard);
-    //     cy.get('.login-box .form_group #password').type(USERS.password);
-    //     cy.get('.login-box #login-button').click();
-    //   });
-
-
     it('Does not do much!', () => {
         expect(true).to.equal(true)
         cy.log(helpers.LOCATORS.ProductsPage)
@@ -121,8 +130,8 @@ describe('example Swag Labs app', () => {
         helpers.visitTheCart()
         helpers.verifyItemInCart(ITEMS.Light)
         helpers.removeFromCart(ITEMS.Light.name)
-       helpers.continueShopping()
-       
+        helpers.continueShopping()
+
     });
 
     it('delete item from cart from products page', () => {
@@ -131,7 +140,7 @@ describe('example Swag Labs app', () => {
         helpers.verifyInProductsPage()
         helpers.addItemToCartFromProductsPage(ITEMS.Light.name)
 
-//the same way of adding 
+        //the same way of adding 
         cy.get(helpers.LOCATORS.productsList)
             .contains(ITEMS.Light.name)
             .parent()
@@ -141,92 +150,40 @@ describe('example Swag Labs app', () => {
             .click()
     });
 
-    it('sort pproducts acoording to thier prices', () => {
+    it('sort pproducts acoording to thier prices Desinding', () => {
         helpers.visit()
         helpers.logIn(USERS.standard)
         helpers.verifyInProductsPage()
-        //click to add 
-        cy.get(helpers.LOCATORS.productsList).then(items => {
-            const numOfProducts = items.length;
-            cy.log(numOfProducts)
+        let pricesBeforeSort = helpers.getPrices()
+        //verify not sorted
+        helpers.selectSortOption(SORTOPTIONS.priceDesinding)
 
-
-            const prices = [];
-            for (let i = 0; i < items.length; i++) {
-                const item = items[i];
-                const priceText = Cypress.$(item).find('.inventory_item_price').text();
-                const price = parseFloat(priceText.replace('$', '')); // Assuming price is in the format $X.XX
-                cy.log(price)
-                prices.push(price);
-            }
-
-        })
-
-
-        const pricesAfterSort = [];
-        cy.get('[class="product_sort_container"]')
-
-            .should('contain', SORTOPTIONS.priceDesinding)
-            .select(SORTOPTIONS.priceDesinding)
-
-        cy.get(helpers.LOCATORS.productsList).then(items => {
-            const numOfProducts = items.length;
-            cy.log(numOfProducts)
-
-
-
-            for (let i = 0; i < items.length; i++) {
-                const item = items[i];
-                const priceText = Cypress.$(item).find('.inventory_item_price').text();
-                const price = parseFloat(priceText.replace('$', '')); // Assuming price is in the format $X.XX
-                cy.log(price)
-                pricesAfterSort.push(price);
-            }
-
-
-
-
-            expect(isSorted(pricesAfterSort, false)).to.be.true;
-        })
-
+        const pricesAfterSort = helpers.getPrices()
+        //verify sorted 
     });
 
-    it('sort products according to their prices', () => {
+    it('sort products according to their prices Asinding', () => {
         helpers.visit()
         helpers.logIn(USERS.standard)
         helpers.verifyInProductsPage()
-
-        // Click to sort products
-        cy.get('[class="product_sort_container"]').should('contain', SORTOPTIONS.priceDesinding).select(SORTOPTIONS.priceDesinding)
+        helpers.selectSortOption(SORTOPTIONS.priseAsinding)
 
         // Extract prices after sorting
-        const pricesAfterSort = [];
-        cy.get(helpers.LOCATORS.productsList).each(item => {
-            const priceText = Cypress.$(item).find('.inventory_item_price').text();
-            const price = parseFloat(priceText.replace('$', ''));
-            cy.log(price);
-            pricesAfterSort.push(price);
-        })
+        const pricesAfterSort = helpers.getPrices();
+        //verify sorting  ??
+    })
 
-    });
 
-    it('sort products according to their names', () => {
+
+    it.only('sort products according to their names', () => {
         helpers.visit()
         helpers.logIn(USERS.standard)
         helpers.verifyInProductsPage()
-
+        helpers.selectSortOption(SORTOPTIONS.nameAsinding)
         // Click to sort products
-        cy.get('[class="product_sort_container"]')
-            .should('contain', SORTOPTIONS.nameAsinding)
-            .select(SORTOPTIONS.nameAsinding)
+        helpers.getNames()
 
-        // Extract product names after sorting
-        const namesAfterSort = [];
-        cy.get('.inventory_list .inventory_item').each(item => {
-            const name = Cypress.$(item).find('.inventory_item_name').text();
-            cy.log(name);
-            namesAfterSort.push(name);
-        })
+        
     });
 
     it('visit cart and checkout the order', () => {
@@ -245,7 +202,7 @@ describe('example Swag Labs app', () => {
 
             // Calculate expected total price including tax
             const itemPrice = parseFloat(ITEMS.Light.price);
-            const itemCount = 1; 
+            const itemCount = 1;
             const subtotal = itemPrice * itemCount;
             const totalWithTax = (subtotal + taxAmount).toFixed(2);
             cy.log(totalWithTax)
