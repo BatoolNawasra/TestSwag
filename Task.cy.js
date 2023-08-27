@@ -141,93 +141,93 @@ describe('example Swag Labs app', () => {
             .click()
     });
 
-    // it('sort pproducts acoording to thier prices', () => {
-    //     helpers.visit()
-    //     helpers.logIn(USERS.standard)
-    //     helpers.verifyInProductsPage()
-    //     //click to add 
-    //     cy.get(helpers.LOCATORS.productsList).then(items => {
-    //         const numOfProducts = items.length;
-    //         cy.log(numOfProducts)
+    it('sort pproducts acoording to thier prices', () => {
+        helpers.visit()
+        helpers.logIn(USERS.standard)
+        helpers.verifyInProductsPage()
+        //click to add 
+        cy.get(helpers.LOCATORS.productsList).then(items => {
+            const numOfProducts = items.length;
+            cy.log(numOfProducts)
 
 
-    //         const prices = [];
-    //         for (let i = 0; i < items.length; i++) {
-    //             const item = items[i];
-    //             const priceText = Cypress.$(item).find('.inventory_item_price').text();
-    //             const price = parseFloat(priceText.replace('$', '')); // Assuming price is in the format $X.XX
-    //             cy.log(price)
-    //             prices.push(price);
-    //         }
+            const prices = [];
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                const priceText = Cypress.$(item).find('.inventory_item_price').text();
+                const price = parseFloat(priceText.replace('$', '')); // Assuming price is in the format $X.XX
+                cy.log(price)
+                prices.push(price);
+            }
 
-    //     })
-
-
-    //     const pricesAfterSort = [];
-    //     cy.get('[class="product_sort_container"]')
-
-    //         .should('contain', SORTOPTIONS.priceDesinding)
-    //         .select(SORTOPTIONS.priceDesinding)
-
-    //     cy.get(helpers.LOCATORS.productsList).then(items => {
-    //         const numOfProducts = items.length;
-    //         cy.log(numOfProducts)
+        })
 
 
+        const pricesAfterSort = [];
+        cy.get('[class="product_sort_container"]')
 
-    //         for (let i = 0; i < items.length; i++) {
-    //             const item = items[i];
-    //             const priceText = Cypress.$(item).find('.inventory_item_price').text();
-    //             const price = parseFloat(priceText.replace('$', '')); // Assuming price is in the format $X.XX
-    //             cy.log(price)
-    //             pricesAfterSort.push(price);
-    //         }
+            .should('contain', SORTOPTIONS.priceDesinding)
+            .select(SORTOPTIONS.priceDesinding)
+
+        cy.get(helpers.LOCATORS.productsList).then(items => {
+            const numOfProducts = items.length;
+            cy.log(numOfProducts)
 
 
 
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                const priceText = Cypress.$(item).find('.inventory_item_price').text();
+                const price = parseFloat(priceText.replace('$', '')); // Assuming price is in the format $X.XX
+                cy.log(price)
+                pricesAfterSort.push(price);
+            }
 
-    //         expect(isSorted(pricesAfterSort, false)).to.be.true;
-    //     })
 
-    // });
 
-    // it('sort products according to their prices', () => {
-    //     helpers.visit()
-    //     helpers.logIn(USERS.standard)
-    //     helpers.verifyInProductsPage()
 
-    //     // Click to sort products
-    //     cy.get('[class="product_sort_container"]').should('contain', SORTOPTIONS.priceDesinding).select(SORTOPTIONS.priceDesinding)
+            expect(isSorted(pricesAfterSort, false)).to.be.true;
+        })
 
-    //     // Extract prices after sorting
-    //     const pricesAfterSort = [];
-    //     cy.get(helpers.LOCATORS.productsList).each(item => {
-    //         const priceText = Cypress.$(item).find('.inventory_item_price').text();
-    //         const price = parseFloat(priceText.replace('$', ''));
-    //         cy.log(price);
-    //         pricesAfterSort.push(price);
-    //     })
+    });
 
-    // });
+    it('sort products according to their prices', () => {
+        helpers.visit()
+        helpers.logIn(USERS.standard)
+        helpers.verifyInProductsPage()
 
-    // it('sort products according to their names', () => {
-    //     helpers.visit()
-    //     helpers.logIn(USERS.standard)
-    //     helpers.verifyInProductsPage()
+        // Click to sort products
+        cy.get('[class="product_sort_container"]').should('contain', SORTOPTIONS.priceDesinding).select(SORTOPTIONS.priceDesinding)
 
-    //     // Click to sort products
-    //     cy.get('[class="product_sort_container"]')
-    //         .should('contain', SORTOPTIONS.nameAsinding)
-    //         .select(SORTOPTIONS.nameAsinding)
+        // Extract prices after sorting
+        const pricesAfterSort = [];
+        cy.get(helpers.LOCATORS.productsList).each(item => {
+            const priceText = Cypress.$(item).find('.inventory_item_price').text();
+            const price = parseFloat(priceText.replace('$', ''));
+            cy.log(price);
+            pricesAfterSort.push(price);
+        })
 
-    //     // Extract product names after sorting
-    //     const namesAfterSort = [];
-    //     cy.get('.inventory_list .inventory_item').each(item => {
-    //         const name = Cypress.$(item).find('.inventory_item_name').text();
-    //         cy.log(name);
-    //         namesAfterSort.push(name);
-    //     })
-    // });
+    });
+
+    it('sort products according to their names', () => {
+        helpers.visit()
+        helpers.logIn(USERS.standard)
+        helpers.verifyInProductsPage()
+
+        // Click to sort products
+        cy.get('[class="product_sort_container"]')
+            .should('contain', SORTOPTIONS.nameAsinding)
+            .select(SORTOPTIONS.nameAsinding)
+
+        // Extract product names after sorting
+        const namesAfterSort = [];
+        cy.get('.inventory_list .inventory_item').each(item => {
+            const name = Cypress.$(item).find('.inventory_item_name').text();
+            cy.log(name);
+            namesAfterSort.push(name);
+        })
+    });
 
     it('visit cart and checkout the order', () => {
         helpers.visit()
