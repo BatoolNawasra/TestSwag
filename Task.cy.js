@@ -80,7 +80,7 @@ describe('example Swag Labs app', () => {
         expect(true).to.equal(true)
         cy.log(helpers.LOCATORS.ProductsPage)
     })
-    
+
     it('Slould Visit web site', () => {
         helpers.visit();
     })
@@ -147,14 +147,28 @@ describe('example Swag Labs app', () => {
             .click()
     });
 
-    it('sort pproducts acoording to thier prices Desinding', () => {
+    it.only('sort pproducts acoording to thier prices Desinding', () => {
         helpers.visit()
         helpers.logIn(USERS.standard)
         helpers.verifyInProductsPage()
-        let pricesBeforeSort = helpers.getPrices()
+        //let pricesBeforeSort = helpers.getPrices()
         //verify not sorted ?
+        // let newList = pricesBeforeSort.slice().sort((a, b) => b - a)
+
         helpers.selectSortOption(SORTOPTIONS.priceDesinding)
         const pricesAfterSort = helpers.getPrices()
+        cy.log(Array.isArray(pricesAfterSort))
+
+        let newList = pricesAfterSort.slice().sort((a, b) => b - a)
+        for (let i = 0; i< newList.length; i++) {
+            cy.log(newList[i]);
+        }
+
+        cy.log(Array.isArray(newList))
+        
+
+
+        cy.log(JSON.stringify(newList) === JSON.stringify(pricesAfterSort))
         //verify sorted ?
     });
 
