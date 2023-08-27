@@ -157,7 +157,6 @@ describe('example Swag Labs app', () => {
         let pricesBeforeSort = helpers.getPrices()
         //verify not sorted
         helpers.selectSortOption(SORTOPTIONS.priceDesinding)
-
         const pricesAfterSort = helpers.getPrices()
         //verify sorted 
     });
@@ -175,15 +174,15 @@ describe('example Swag Labs app', () => {
 
 
 
-    it.only('sort products according to their names', () => {
+    it('sort products according to their names Asinding', () => {
         helpers.visit()
         helpers.logIn(USERS.standard)
         helpers.verifyInProductsPage()
         helpers.selectSortOption(SORTOPTIONS.nameAsinding)
         // Click to sort products
         helpers.getNames()
+        //verify is sorted
 
-        
     });
 
     it('visit cart and checkout the order', () => {
@@ -212,11 +211,7 @@ describe('example Swag Labs app', () => {
         })
 
         helpers.finishCheckOut()
-        //back to product page 
         helpers.backToProducts()
-        helpers.verifyInProductsPage();
-
-        //after check out the cart being empty
         helpers.verifyCartCount(0)
     });//done
     it('Log in then logout', () => {
