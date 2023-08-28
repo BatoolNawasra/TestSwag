@@ -151,34 +151,50 @@ describe('example Swag Labs app', () => {
         helpers.visit()
         helpers.logIn(USERS.standard)
         helpers.verifyInProductsPage()
-        //let pricesBeforeSort = helpers.getPrices()
-        //verify not sorted ?
-        // let newList = pricesBeforeSort.slice().sort((a, b) => b - a)
-
         helpers.selectSortOption(SORTOPTIONS.priceDesinding)
+
         const pricesAfterSort = helpers.getPrices()
         cy.log(Array.isArray(pricesAfterSort))
 
         let newList = pricesAfterSort.slice().sort((a, b) => b - a)
-        for (let i = 0; i< newList.length; i++) {
-            cy.log(newList[i]);
-        }
-
         cy.log(Array.isArray(newList))
-        
 
 
-        cy.log(JSON.stringify(newList) === JSON.stringify(pricesAfterSort))
+        expect(JSON.stringify(newList)).to.equal(JSON.stringify(pricesAfterSort))
+        expect((JSON.stringify(newList) === JSON.stringify(pricesAfterSort))).to.be.true;
         //verify sorted ?
     });
 
+
+
+    it('lololo', () => {
+        let A = [1, 2, 30, 60]
+        let B = [1, 2, 30, 60]
+        expect(helpers.equalArrays(A, B)).to.be.true;
+        expect(JSON.stringify(A)).to.equal(JSON.stringify(B))
+
+    })
     it('sort products according to their prices Asinding', () => {
         helpers.visit()
         helpers.logIn(USERS.standard)
         helpers.verifyInProductsPage()
+
+        let prices = helpers.getPrices()
+
         helpers.selectSortOption(SORTOPTIONS.priseAsinding)
         const pricesAfterSort = helpers.getPrices();
-        //verify sorting  ??
+
+        expect(helpers.equalArrays(prices, pricesAfterSort)).to.be.true;
+
+        // cy.log(Array.isArray(pricesAfterSort))
+
+        // let newList = pricesAfterSort.slice().sort((a, b) => b - a)
+        // cy.log(Array.isArray(newList))
+
+
+        // expect(JSON.stringify(newList)).to.equal(JS ON.stringify(pricesAfterSort))
+        // expect((JSON.stringify(newList) === JSON.stringify(pricesAfterSort))).to.be.true;
+
     })
 
 

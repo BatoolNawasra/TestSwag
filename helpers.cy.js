@@ -69,6 +69,7 @@ export const getPrices = () => {
             cy.log(price)
             prices.push(price);
         }
+     
     })
     return prices;
 }
@@ -100,11 +101,11 @@ export const verifyItemInCart = (item) => {
 export const verifyInProductsPage = (user) => {
     cy.url().should('include', LOCATORS.ProductsPage);
     cy.get('.inventory_list').should('exist');
-   // cy.get('.inventory_item').should('have.length', 6)
+    // cy.get('.inventory_item').should('have.length', 6)
     //cy.get('.inventory_item_name').should('be.visible');
     //cy.url().should('include', '/inventory.html');
 
-   // cy.get('.inventory_item_price').should('be.visible');
+    // cy.get('.inventory_item_price').should('be.visible');
     //cy.get(LOCATORS.addButtonInProductPage).should('be.enabled')
     //cy.get(LOCATORS.addButtonInProductPage).should('not.have.attr', 'disabled');
 
@@ -201,6 +202,24 @@ export const verifynamesort = (nameSortOption) => {
 export const pricesort = (priceSortOption) => {
 
 }
+
+
+export const equalArrays = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) {
+        
+        return false; // Arrays have different lengths, so they can't be equal
+    }
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false; // Elements at index i are not equal
+        }
+    }
+    return true; // All elements are equal at respective indices
+
+}
+
+
+
 export const logout = () => {
     cy.get('[class="bm-burger-button"]').click()
     cy.get('#logout_sidebar_link')
