@@ -1,5 +1,5 @@
-export let prices = new Array();
-
+export let prices ;
+export  let names;
 export const ITEMS = {
     Backpack: {
         name: 'Sauce Labs Backpack', price: 15.99,
@@ -274,25 +274,12 @@ export const equalArrays = (arr1, arr2) => {
 
 
 
-// export const getPrices = () => {
-//     const prices = [];
-
-
-//     cy.get(LOCATORS.productsList).each(item => {
-//         const priceText = Cypress.$(item).find('.inventory_item_price').text();
-//         const price = parseFloat(priceText.replace('$', '')); // Assuming price is in the format $X.XX
-//         prices.push(price);
-//         cy.log(prices)
-//     });
-
-//     return prices;
-// }
 
 
 
 
 export const getPrices = () => {
-    
+    prices = new Array()
     cy.get(LOCATORS.productsList).then(items => {
         const numOfProducts = items.length;
         cy.log(numOfProducts);
@@ -303,30 +290,32 @@ export const getPrices = () => {
             cy.log(price);
               prices.push(price);
             // prices[i] = price
-            cy.log(prices[i])
-             cy.log(prices.length)
+            //cy.log(prices[i])
+             //cy.log(prices.length)
         }
-        cy.log(prices[2])
-        cy.log(prices.length)
-        //  prices.forEach((price) => console.log(price));
-    }).then(()=> {
-        cy.log(prices.length)
-        cy.log(prices[2])
+        //cy.log(prices[2])
+      //  cy.log(prices.length)
+       
     })
+    // .then(()=> {
+    //     //cy.log(prices.length)
+    //    // cy.log(prices[2])
+    // }
+
 
     
 }
 
 
 export const getNames = () => {
-    let names =  new Array();
+     names =  new Array();
     cy.get('.inventory_list .inventory_item').each(item => {
         const name = Cypress.$(item).find('.inventory_item_name').text();
-        cy.log(name);
+        //cy.log(name);
 
         names.push(name);
-        cy.log(names.length)
+        
     })
-    cy.log(names.length)
-    return names;
+   
+   
 }

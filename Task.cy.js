@@ -78,77 +78,65 @@ describe('example Swag Labs app', () => {
 
     })
 
-    it.only('sort pproducts acoording to thier prices Desinding', () => {
+    it('sort pproducts acoording to thier prices Desinding', () => {
         TestSwagHelpers.selectSortOption(TestSwagHelpers.SORTOPTIONS.priceDesinding)
 
-        let p = TestSwagHelpers.getPrices()
+        let pricesAfterSort = TestSwagHelpers.getPrices()
         cy.then(() => {
-           TestSwagHelpers.prices[2]
+
+            let pricesAfterSort = TestSwagHelpers.prices
+            pricesAfterSort.forEach((price) => cy.log(price));
+            let newList = pricesAfterSort.slice().sort((a, b) => b - a)
+            expect(TestSwagHelpers.equalArrays(pricesAfterSort, newList)).to.be.true;
+            expect(JSON.stringify(newList)).to.equal(JSON.stringify(pricesAfterSort))
+            expect((JSON.stringify(newList) === JSON.stringify(pricesAfterSort))).to.be.true;
+
         })
-
-
-
-
-        //  cy.log(pricesAfterSort[5])
-        //   let newList = pricesAfterSort.slice().sort((a, b) => b - a )
-
-
-        //cy.log(Array.isArray(newList))
-        //expect(TestSwagHelpers.equalArrays(pricesAfterSort, newList)).to.be.true;
-
-        //  expect(JSON.stringify(newList)).to.equal(JSON.stringify(pricesAfterSort))
-        // expect((JSON.stringify(newList) === JSON.stringify(pricesAfterSort))).to.be.true;
-        //verify sorted ?
     });
 
 
+    it('sort pproducts acoording to thier prices Asinding', () => {
+        TestSwagHelpers.selectSortOption(TestSwagHelpers.SORTOPTIONS.priseAsinding)
+        TestSwagHelpers.getPrices()
+        cy.then(() => {
+            let pricesAfterSort = TestSwagHelpers.prices
+            // pricesAfterSort.forEach((price) => cy.log(price));
+            let newList = pricesAfterSort.slice().sort((a, b) => a - b)
+            // expect(TestSwagHelpers.equalArrays(pricesAfterSort, newList)).to.be.true;
+            expect(JSON.stringify(newList)).to.equal(JSON.stringify(pricesAfterSort))
+            expect((JSON.stringify(newList) === JSON.stringify(pricesAfterSort))).to.be.true;
 
+        })
+    });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    it.only('sort products according to their names Asinding', () => {
-
-
+    it('sort products according to their names Asinding', () => {
         TestSwagHelpers.selectSortOption(TestSwagHelpers.SORTOPTIONS.nameAsinding)
-        let LOL = TestSwagHelpers.getNames()
+        TestSwagHelpers.getNames()
+        cy.then(() => {
+            let namesAfterSort = TestSwagHelpers.names
+            let testList = namesAfterSort.slice().sort((a, b) => a.localeCompare(b));
+            expect(JSON.stringify(testList)).to.equal(JSON.stringify(namesAfterSort))
+            expect((JSON.stringify(testList) === JSON.stringify(namesAfterSort))).to.be.true;
 
-
-        cy.log(LOL)
-        //verify is sorted
+        })
     });
 
+    it('sort products according to their names Desinding', () => {
+        TestSwagHelpers.selectSortOption(TestSwagHelpers.SORTOPTIONS.nameDesinding)
+        TestSwagHelpers.getNames()
+        cy.then(() => {
 
+
+
+            let namesAfterSort = TestSwagHelpers.names
+            // namesAfterSort.forEach((name) => cy.log(name + '\n'))
+
+            let testList = namesAfterSort.slice().sort((a, b) => b.localeCompare(a));
+
+            expect(JSON.stringify(testList)).to.equal(JSON.stringify(namesAfterSort))
+            expect((JSON.stringify(testList) === JSON.stringify(namesAfterSort))).to.be.true;
+
+        })
+    });
 
 })
