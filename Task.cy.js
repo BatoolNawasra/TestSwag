@@ -80,10 +80,11 @@ describe('example Swag Labs app', () => {
 
     it.only('sort pproducts acoording to thier prices Desinding', () => {
         TestSwagHelpers.selectSortOption(TestSwagHelpers.SORTOPTIONS.priceDesinding)
-        const prices = TestSwagHelpers.getPrices()
-        cy.log(typeof (prices))
 
-        cy.log(prices[2])
+        let p = TestSwagHelpers.getPrices()
+        cy.then(() => {
+           TestSwagHelpers.prices[2]
+        })
 
 
 

@@ -1,3 +1,5 @@
+export let prices = new Array();
+
 export const ITEMS = {
     Backpack: {
         name: 'Sauce Labs Backpack', price: 15.99,
@@ -269,65 +271,59 @@ export const equalArrays = (arr1, arr2) => {
     return true; // All elements are equal at respective indices
 
 }
-export const getPrices = () => {
-    let prices = [];
-    
-    const promise = new Cypress.Promise(resolve => {
-        cy.get(LOCATORS.productsList).then(items => {
-            const numOfProducts = items.length;
-            cy.log(numOfProducts);
-            
-            const processItem = i => {
-                if (i < numOfProducts) {
-                    const item = items[i];
-                    const priceText = Cypress.$(item).find('.inventory_item_price').text();
-                    const price = parseFloat(priceText.replace('$', '')); // Assuming price is in the format $X.XX
-                    cy.log(price);
-                    prices.push(price);
-                    cy.log(prices.length);
-                    
-                    processItem(i + 1);
-                } else {
-                    cy.log(prices.length);
-                    resolve(prices);
-                }
-            };
-
-            processItem(0);
-        });
-    });
-
-    return promise;
-}
-
 
 
 
 // export const getPrices = () => {
-//     let prices = [];
-//     cy.get(LOCATORS.productsList).then(items => {
-//         const numOfProducts = items.length;
-//         cy.log(numOfProducts);
-//         for (let i = 0; i < numOfProducts; i++) {
-//             const item = items[i];
-//             const priceText = Cypress.$(item).find('.inventory_item_price').text();
-//             const price = parseFloat(priceText.replace('$', '')); // Assuming price is in the format $X.XX
-//             cy.log(price);
-//             prices.push(price);
-//             cy.log(prices.length)
-//         }
-//         cy.log(prices.length)
-//     })
-//     cy.log(prices.length)
+//     const prices = [];
+
+
+//     cy.get(LOCATORS.productsList).each(item => {
+//         const priceText = Cypress.$(item).find('.inventory_item_price').text();
+//         const price = parseFloat(priceText.replace('$', '')); // Assuming price is in the format $X.XX
+//         prices.push(price);
+//         cy.log(prices)
+//     });
+
+//     return prices;
 // }
 
 
+
+
+export const getPrices = () => {
+    
+    cy.get(LOCATORS.productsList).then(items => {
+        const numOfProducts = items.length;
+        cy.log(numOfProducts);
+        for (let i = 0; i < numOfProducts; i++) {
+            const item = items[i];
+            const priceText = Cypress.$(item).find('.inventory_item_price').text();
+            const price = parseFloat(priceText.replace('$', '')); // Assuming price is in the format $X.XX
+            cy.log(price);
+              prices.push(price);
+            // prices[i] = price
+            cy.log(prices[i])
+             cy.log(prices.length)
+        }
+        cy.log(prices[2])
+        cy.log(prices.length)
+        //  prices.forEach((price) => console.log(price));
+    }).then(()=> {
+        cy.log(prices.length)
+        cy.log(prices[2])
+    })
+
+    
+}
+
+
 export const getNames = () => {
-    let names = [];
+    let names =  new Array();
     cy.get('.inventory_list .inventory_item').each(item => {
         const name = Cypress.$(item).find('.inventory_item_name').text();
         cy.log(name);
-        
+
         names.push(name);
         cy.log(names.length)
     })
