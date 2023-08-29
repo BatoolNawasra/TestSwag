@@ -9,7 +9,6 @@ const checkout_information = {
 
 
 describe('example Swag Labs app', () => {
-
     beforeEach(() => {
         TestSwagHelpers.visit();
         TestSwagHelpers.logIn(TestSwagHelpers.USERS.standard)
@@ -25,7 +24,6 @@ describe('example Swag Labs app', () => {
         TestSwagHelpers.addToCart()
         TestSwagHelpers.verifyCartCount(2)
         TestSwagHelpers.backToProducts()
-
     });
 
     it('add item to cart from main page', () => {
@@ -48,7 +46,6 @@ describe('example Swag Labs app', () => {
         TestSwagHelpers.deleteItemFromMainPage(TestSwagHelpers.ITEMS.Light)
     });
 
-
     it('visit cart and checkout the order', () => {
         TestSwagHelpers.addItemFromMainPage(TestSwagHelpers.ITEMS.Light)
         TestSwagHelpers.goTheCart()
@@ -57,7 +54,7 @@ describe('example Swag Labs app', () => {
         TestSwagHelpers.finishCheckOut()
         TestSwagHelpers.backToProducts()
         TestSwagHelpers.verifyCartCount(0)
-    });//done
+    });
 
     it('Log in then logout', () => {
         TestSwagHelpers.logout()
@@ -80,20 +77,16 @@ describe('example Swag Labs app', () => {
 
     it('sort pproducts acoording to thier prices Desinding', () => {
         TestSwagHelpers.selectSortOption(TestSwagHelpers.SORTOPTIONS.priceDesinding)
-
         let pricesAfterSort = TestSwagHelpers.getPrices()
         cy.then(() => {
-
             let pricesAfterSort = TestSwagHelpers.prices
             pricesAfterSort.forEach((price) => cy.log(price));
             let newList = pricesAfterSort.slice().sort((a, b) => b - a)
             expect(TestSwagHelpers.equalArrays(pricesAfterSort, newList)).to.be.true;
             expect(JSON.stringify(newList)).to.equal(JSON.stringify(pricesAfterSort))
             expect((JSON.stringify(newList) === JSON.stringify(pricesAfterSort))).to.be.true;
-
         })
     });
-
 
     it('sort pproducts acoording to thier prices Asinding', () => {
         TestSwagHelpers.selectSortOption(TestSwagHelpers.SORTOPTIONS.priseAsinding)
@@ -125,18 +118,14 @@ describe('example Swag Labs app', () => {
         TestSwagHelpers.selectSortOption(TestSwagHelpers.SORTOPTIONS.nameDesinding)
         TestSwagHelpers.getNames()
         cy.then(() => {
-
-
-
             let namesAfterSort = TestSwagHelpers.names
             // namesAfterSort.forEach((name) => cy.log(name + '\n'))
-
             let testList = namesAfterSort.slice().sort((a, b) => b.localeCompare(a));
-
             expect(JSON.stringify(testList)).to.equal(JSON.stringify(namesAfterSort))
             expect((JSON.stringify(testList) === JSON.stringify(namesAfterSort))).to.be.true;
-
         })
     });
 
+
+    
 })

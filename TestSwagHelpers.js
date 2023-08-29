@@ -1,5 +1,5 @@
-export let prices ;
-export  let names;
+export let prices;
+export let names;
 export const ITEMS = {
     Backpack: {
         name: 'Sauce Labs Backpack', price: 15.99,
@@ -51,7 +51,7 @@ export const LOCATORS = {
 
 
     productsList: '.inventory_list  .inventory_item',
-    addButtonInProductsPage: '.pricebar button',
+    addButtonInMainPage: '.pricebar button',
     addButtonInProductPage: '[class="btn btn_primary btn_small btn_inventory"]',
 
     cartlist: '.cart_list .cart_item',
@@ -60,6 +60,13 @@ export const LOCATORS = {
     checkoutFname: ' #first-name',
     checkoutLname: ' #last-name',
     checkoutCode: ' #postal-code',
+
+    checkoutButton: '[id="back-to-products"]',
+    finishButton: '[id="finish"]',
+    continueShoppingButton: '[id="continue-shopping"]',
+    sortList: '[class="product_sort_container"]',
+    cartCount: '[class="shopping_cart_badge"]',
+    logo: '.login_logo'
 
 }
 
@@ -85,43 +92,38 @@ function areObjectValuesSorted(obj, order = 'asc') {
 
 export const visit = () => {
     cy.visit(PAGES.testSwagPage)
-    cy.get('.login_logo').contains('Swag Labs').should('be.visible');
+    cy.get(LOCATORS.logo).contains('Swag Labs').should('be.visible');
 
 }
 
 export const logIn = (user) => {
     cy.get(LOCATORS.userName)
+        .clear()
         .type(user)
     cy.get(LOCATORS.password)
+        .clear()
         .type(USERS.password)
     cy.get(LOCATORS.logInButton)
         .click()
-
     cy.url().should('include', PAGES.ProductsPage);
     cy.get('.inventory_list').should('exist');
-
 }
 export const backToProducts = () => {
-    cy.get('[id="back-to-products"]').click()
+    cy.get(LOCATORS.checkoutButton).click()
 
 
 }
 
 export const continueShopping = () => {
-    cy.get('[class="cart_footer"]  [id="continue-shopping"]')
+    cy.get(LOCATORS.continueShoppingButton)
         .click()
 }
 
-
-
-
-
 export const selectSortOption = (sortOption) => {
-    cy.get('[class="product_sort_container"]')
+    cy.get(LOCATORS.sortList)
         .should('contain', sortOption)
         .select(sortOption)
 }
-
 
 export const checkItemInCart = (item) => {
     cy.get('#shopping_cart_container').click()
@@ -132,22 +134,20 @@ export const checkItemInCart = (item) => {
 }
 
 export const finishCheckOut = () => {
-    cy.get('.cart_footer  button ').contains('Finish').click()
+    cy.get(LOCATORS.finishButton).click()
     cy.contains('Thank you for your order!').should('be.visible');
 }
 export const verifyCartCount = (num) => {
     if (num == 0) {
-        cy.get('[class="shopping_cart_badge"]').should('not.exist');
+        cy.get(LOCATORS.cartCount).should('not.exist');
 
     } else {
-        cy.get('[class="shopping_cart_badge"]').should('have.text', num);
-
+        cy.get(LOCATORS.cartCount).should('have.text', num);
     }
-
 }
 
 export const goItemPage = (item) => {
-    cy.get('.inventory_list .inventory_item')
+    cy.get(LOCATORS.productsList)
         .contains(item.name)
         .parent()
         .find('[href="#"]')
@@ -161,9 +161,6 @@ export const goItemPage = (item) => {
     cy.get('.inventory_details_desc_container button').should('be.enabled')
 }
 
-
-
-
 export const goTheCart = () => {
     cy.get('#shopping_cart_container').click()
 
@@ -172,8 +169,9 @@ export const goTheCart = () => {
 export const addToCart = () => {
     cy.get('.inventory_details_desc_container button').click()
 }
+
 export const removeFromCart = (itemName) => {
-    cy.get('.cart_list  .cart_item')
+    cy.get(LOCATORS.cartlist)
         .contains(itemName)
         .parent()
         .parent()
@@ -181,23 +179,19 @@ export const removeFromCart = (itemName) => {
         .click()
 }
 
-
-
-
-
 export const addItemFromMainPage = (item) => {
     cy.get(LOCATORS.productsList)
         .contains(item.name)
         .parent()
         .parent()
-        .find(LOCATORS.addButtonInProductsPage).click()
+        .find(LOCATORS.addButtonInMainPage).click()
 }
 export const deleteItemFromMainPage = (item) => {
     cy.get(LOCATORS.productsList)
         .contains(item.name)
         .parent()
         .parent()
-        .find(LOCATORS.addButtonInProductsPage).click()
+        .find(LOCATORS.addButtonInMainPage).click()
 }
 
 export const deletItemFromChart = (itemprice) => {
@@ -216,9 +210,9 @@ export const deletItemFromChart = (itemprice) => {
 export const fillCheckoutInformation = (Info) => {
     cy.get('#checkout').click()
     //fill personal check out info
-    cy.get('  #first-name').type(Info.firstName)
-    cy.get('  #last-name').type(Info.lastName)
-    cy.get('   #postal-code').type(Info.postalCode)
+    cy.get('  #first-name').clear().type(Info.firstName)
+    cy.get('  #last-name').clear().type(Info.lastName)
+    cy.get('   #postal-code').clear().type(Info.postalCode)
 
 }
 export const checkout = (item) => {
@@ -252,12 +246,6 @@ export const sortProducts = (sortOption) => {
         .select(sortOption)
 }
 
-
-
-
-
-
-
 export const equalArrays = (arr1, arr2) => {
     if (arr1.length !== arr2.length) {
 
@@ -271,13 +259,6 @@ export const equalArrays = (arr1, arr2) => {
     return true; // All elements are equal at respective indices
 
 }
-
-
-
-
-
-
-
 export const getPrices = () => {
     prices = new Array()
     cy.get(LOCATORS.productsList).then(items => {
@@ -288,14 +269,14 @@ export const getPrices = () => {
             const priceText = Cypress.$(item).find('.inventory_item_price').text();
             const price = parseFloat(priceText.replace('$', '')); // Assuming price is in the format $X.XX
             cy.log(price);
-              prices.push(price);
+            prices.push(price);
             // prices[i] = price
             //cy.log(prices[i])
-             //cy.log(prices.length)
+            //cy.log(prices.length)
         }
         //cy.log(prices[2])
-      //  cy.log(prices.length)
-       
+        //  cy.log(prices.length)
+
     })
     // .then(()=> {
     //     //cy.log(prices.length)
@@ -303,19 +284,17 @@ export const getPrices = () => {
     // }
 
 
-    
+
 }
-
-
 export const getNames = () => {
-     names =  new Array();
-    cy.get('.inventory_list .inventory_item').each(item => {
+    names = new Array();
+    cy.get(LOCATORS.productsList).each(item => {
         const name = Cypress.$(item).find('.inventory_item_name').text();
         //cy.log(name);
 
         names.push(name);
-        
+
     })
-   
-   
+
+
 }
