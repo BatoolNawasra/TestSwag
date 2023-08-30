@@ -75,26 +75,22 @@ export const LOCATORS = {
 }
 
 export const isArraySorted = (arr, order = 'AS') => {
-    length = arr.length
-
-    if (order = 'AS') {
-        for (let i = 0; i < length; i++) {
-            if (arr[i + 1] - arr[i] < 0) {
-                return false
+    length = arr.length;
+    for (let i = 0; i < length; i++) {
+        if (order == 'AS') {
+            let test = arr[i + 1] - arr[i];
+            if (test < 0) {
+                return false;
             }
-
         }
-        return true
-    }
-    
-    else (order = 'DS'){
-        for (let i = 0; i < length; i++) {
-            if (arr[i + 1] - arr[i] > 0)
+        else if (order == 'DS') {
+            let test = arr[i + 1] - arr[i]
+            if (test > 0)
                 return false
         }
-        return true
-    }
 
+    }
+    return true
 
 }
 
