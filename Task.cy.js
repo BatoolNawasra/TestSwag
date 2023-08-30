@@ -62,17 +62,17 @@ describe('example Swag Labs app', () => {
     })
 
     it('lololo', () => {
-        let A = [1, 2, 30, 60]
-        let B = [1, 2, 30, 60]
-        cy.log(A[2])
-        cy.log(Array.isArray(A))
+        let A = [1, 72, 25, 60]
+        let B = [60, 30, 5]
+        //  cy.log(A[2])
+        //cy.log(Array.isArray(A))
+        // B.forEach(item => {
+        //     cy.log(item);
+        // });
 
-        B.forEach(item => {
-            cy.log(item);
-        });
-
-        expect(TestSwagHelpers.equalArrays(A, B)).to.be.true;
-        expect(JSON.stringify(A)).to.equal(JSON.stringify(B))
+        cy.log(TestSwagHelpers.isArraySorted(A, 'AS'))
+        expect(TestSwagHelpers.equalArrays(A, B)).not.to.be.true;
+        // expect(JSON.stringify(A)).to.equal(JSON.stringify(B))
 
     })
 
@@ -81,11 +81,7 @@ describe('example Swag Labs app', () => {
         let pricesAfterSort = TestSwagHelpers.getPrices()
         cy.then(() => {
             let pricesAfterSort = TestSwagHelpers.prices
-            pricesAfterSort.forEach((price) => cy.log(price));
-            let newList = pricesAfterSort.slice().sort((a, b) => b - a)
-            expect(TestSwagHelpers.equalArrays(pricesAfterSort, newList)).to.be.true;
-            expect(JSON.stringify(newList)).to.equal(JSON.stringify(pricesAfterSort))
-            expect((JSON.stringify(newList) === JSON.stringify(pricesAfterSort))).to.be.true;
+            expect(TestSwagHelpers.isArraySorted(pricesAfterSort, 'DS')).to.be.true;
         })
     });
 
@@ -94,12 +90,7 @@ describe('example Swag Labs app', () => {
         TestSwagHelpers.getPrices()
         cy.then(() => {
             let pricesAfterSort = TestSwagHelpers.prices
-            // pricesAfterSort.forEach((price) => cy.log(price));
-            let newList = pricesAfterSort.slice().sort((a, b) => a - b)
-            // expect(TestSwagHelpers.equalArrays(pricesAfterSort, newList)).to.be.true;
-            expect(JSON.stringify(newList)).to.equal(JSON.stringify(pricesAfterSort))
-            expect((JSON.stringify(newList) === JSON.stringify(pricesAfterSort))).to.be.true;
-
+            expect(TestSwagHelpers.isArraySorted(pricesAfterSort, 'AS')).to.be.true;
         })
     });
 
