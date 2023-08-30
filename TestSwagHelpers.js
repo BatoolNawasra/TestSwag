@@ -43,7 +43,6 @@ export const PAGES = {
     testSwagPage: 'https://www.saucedemo.com',
     ProductsPage: 'https://www.saucedemo.com/inventory.html',
 }
-
 export const LOCATORS = {
     userName: '#user-name',
     password: '#password',
@@ -76,7 +75,7 @@ export const LOCATORS = {
 
 export const isArraySorted = (arr, order = 'AS') => {
     length = arr.length;
-    for (let i = 0; i < length+1  ; i++) {
+    for (let i = 0; i < length + 1; i++) {
         if (order == 'AS') {
             let test = arr[i + 1] - arr[i];
             if (test < 0) {
@@ -88,10 +87,8 @@ export const isArraySorted = (arr, order = 'AS') => {
             if (test > 0)
                 return false
         }
-
     }
     return true
-
 }
 
 export const visit = () => {
@@ -110,7 +107,7 @@ export const logIn = (user) => {
         .click()
     cy.url().should('include', PAGES.ProductsPage);
 
-    cy.get('.inventory_list').should('exist');
+    cy.get(LOCATORS.productsList).should('exist');
     cy.get('.title').should('contain', 'Products')
 
 }
@@ -177,15 +174,6 @@ export const addToCart = () => {
     cy.get('.inventory_details_desc_container button').click()
 }
 
-export const removeFromCart = (itemName) => {
-    cy.get(LOCATORS.cartlist)
-        .contains(itemName)
-        .parent()
-        .parent()
-        .find('button')
-        .click()
-}
-
 export const addItemFromMainPage = (item) => {
     cy.get(LOCATORS.productsList)
         .contains(item.name)
@@ -193,6 +181,7 @@ export const addItemFromMainPage = (item) => {
         .parent()
         .find(LOCATORS.addButtonInMainPage).click()
 }
+
 export const deleteItemFromMainPage = (item) => {
     cy.get(LOCATORS.productsList)
         .contains(item.name)
@@ -203,7 +192,6 @@ export const deleteItemFromMainPage = (item) => {
 
 export const deletItemFromCart = (item) => {
     cy.get(LOCATORS.cartlist).click()
-    cy.get(LOCATORS.cartlist)
         .contains(item.price)
         .parent()
         .find('button')
@@ -213,6 +201,7 @@ export const deletItemFromCart = (item) => {
 
 
 }
+
 export const fillCheckoutInformation = (Info) => {
     cy.get('#checkout').click()
     //fill personal check out info
@@ -221,6 +210,7 @@ export const fillCheckoutInformation = (Info) => {
     cy.get('   #postal-code').clear().type(Info.postalCode)
 
 }
+
 export const checkout = (item) => {
     cy.get('#continue').click()
 
@@ -237,6 +227,7 @@ export const checkout = (item) => {
             .should('contain', totalWithTax);
     })
 }
+
 export const logout = () => {
     cy.get('[class="bm-burger-button"]').click()
     cy.get('#logout_sidebar_link')
@@ -245,13 +236,13 @@ export const logout = () => {
     cy.get(LOCATORS.logo).contains('Swag Labs').should('be.visible');
 
 }
+
 export const sortProducts = (sortOption) => {
     // Click to sort products
     cy.get(LOCATORS.sortList)
         .should('contain', sortOption)
         .select(sortOption)
 }
-
 export const equalArrays = (arr1, arr2) => {
     if (arr1.length !== arr2.length) {
 
@@ -265,6 +256,7 @@ export const equalArrays = (arr1, arr2) => {
     return true; // All elements are equal at respective indices
 
 }
+
 export const getPrices = () => {
     prices = new Array()
     cy.get(LOCATORS.productsList).then(items => {
@@ -292,14 +284,13 @@ export const getPrices = () => {
 
 
 }
+
 export const getNames = () => {
     names = new Array();
     cy.get(LOCATORS.productsList).each(item => {
         const name = Cypress.$(item).find(LOCATORS.productName).text();
         //cy.log(name);
-
         names.push(name);
-
     })
 
 

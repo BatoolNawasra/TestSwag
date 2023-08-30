@@ -37,7 +37,7 @@ describe('example Swag Labs app', () => {
     it('delete item from cart', () => {
         TestSwagHelpers.addItemFromMainPage(TestSwagHelpers.ITEMS.Light)
         TestSwagHelpers.checkItemInCart(TestSwagHelpers.ITEMS.Light)
-        //  TestSwagHelpers.removeFromCart(TestSwagHelpers.ITEMS.Light.name)
+      
         TestSwagHelpers.deletItemFromCart(TestSwagHelpers.ITEMS.Light)
         TestSwagHelpers.continueShopping()
     });
