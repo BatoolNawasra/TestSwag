@@ -72,7 +72,10 @@ export const LOCATORS = {
     countinueCheckoutbutton: '#continue',
     anchor: 'a',
     addToCartButton: '.inventory_details_desc_container button',
-    checkoutButton: '#checkout'
+    checkoutButton: '#checkout',
+    logoutbutton :'#logout_sidebar_link',
+    totalLabel : '.summary_total_label' , 
+    taxLabel : '.summary_tax_label',
 }
 
 export const orderPrice = {
@@ -105,13 +108,13 @@ export const visitTestSwag = () => {
 
 export const logIn = (user) => {
     cy.get(LOCATORS.userName)
-        .clear()
-        .type(user)
+      .clear()
+      .type(user)
     cy.get(LOCATORS.password)
-        .clear()
-        .type(USERS.password)
+      .clear()
+      .type(USERS.password)
     cy.get(LOCATORS.logInButton)
-        .click()
+      .click()
     cy.url().should('include', URLS.ProductsPage);
     cy.get(LOCATORS.productsList).should('exist');
     cy.get(LOCATORS.title).should('contain', 'Products')
@@ -215,14 +218,14 @@ export const fillCheckoutInformation = (Info) => {
 //must update to checkout many item not only one
 export const checkout = (item) => {
     cy.get(LOCATORS.countinueCheckoutbutton).click()
-    cy.get('.summary_tax_label').invoke('text').then(taxText => {
+    cy.get(LOCATORS.taxLabel).invoke('text').then(taxText => {
         const taxAmount = parseFloat(taxText.replace('Tax: $', ''));
         const itemPrice = parseFloat(item.price);
         const itemCount = 1;
         const subtotal = itemPrice * itemCount;
         const totalWithTax = (subtotal + taxAmount).toFixed(2);
         cy.log(totalWithTax)
-        cy.get('.summary_total_label')
+        cy.get(LOCATORS.totalLabel)
             .contains('Total:')
             .should('contain', totalWithTax);
     })
@@ -230,7 +233,7 @@ export const checkout = (item) => {
 
 export const logout = () => {
     cy.get('[class="bm-burger-button"]').click()
-    cy.get('#logout_sidebar_link')
+    cy.get(LOCATORS.logoutbutton)
         .contains('Logout').click();
     cy.url().should('include', URLS.testSwagPage);
     cy.get(LOCATORS.logo).contains('Swag Labs').should('be.visible');
