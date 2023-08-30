@@ -10,17 +10,17 @@ const checkout_information = {
 
 describe('example Swag Labs app', () => {
     beforeEach(() => {
-        TestSwagHelpers.visit();
+        TestSwagHelpers.visitTestSwag();
         TestSwagHelpers.logIn(TestSwagHelpers.USERS.standard)
     })
 
     it('add 2 items to cart from thier page', () => {
         TestSwagHelpers.verifyCartCount(0)
-        TestSwagHelpers.goItemPage(TestSwagHelpers.ITEMS.ShirtRed)
+        TestSwagHelpers.goToItemPage(TestSwagHelpers.ITEMS.ShirtRed)
         TestSwagHelpers.addToCart()
         TestSwagHelpers.verifyCartCount(1)
         TestSwagHelpers.backToProducts()
-        TestSwagHelpers.goItemPage(TestSwagHelpers.ITEMS.Light)
+        TestSwagHelpers.goToItemPage(TestSwagHelpers.ITEMS.Light)
         TestSwagHelpers.addToCart()
         TestSwagHelpers.verifyCartCount(2)
         TestSwagHelpers.backToProducts()
@@ -71,7 +71,7 @@ describe('example Swag Labs app', () => {
         // });
 
         cy.log(TestSwagHelpers.isArraySorted(A, 'AS'))
-        expect(TestSwagHelpers.equalArrays(A, B)).not.to.be.true;
+        expect(TestSwagHelpers.is2ArraysEqual(A, B)).not.to.be.true;
         // expect(JSON.stringify(A)).to.equal(JSON.stringify(B))
 
     })
@@ -81,7 +81,7 @@ describe('example Swag Labs app', () => {
         let pricesAfterSort = TestSwagHelpers.getPrices()
         cy.then(() => {
             let pricesAfterSort = TestSwagHelpers.prices
-            expect(TestSwagHelpers.isArraySorted(pricesAfterSort, 'DS')).to.be.true;
+            expect(TestSwagHelpers.isArraySorted(pricesAfterSort, TestSwagHelpers.orderPrice.Desinding)).to.be.true;
         })
     });
 
@@ -90,7 +90,7 @@ describe('example Swag Labs app', () => {
         TestSwagHelpers.getPrices()
         cy.then(() => {
             let pricesAfterSort = TestSwagHelpers.prices
-            expect(TestSwagHelpers.isArraySorted(pricesAfterSort, 'AS')).to.be.true;
+            expect(TestSwagHelpers.isArraySorted(pricesAfterSort,TestSwagHelpers.orderPrice.Asinding)).to.be.true;
         })
     });
 
@@ -102,7 +102,6 @@ describe('example Swag Labs app', () => {
             let testList = namesAfterSort.slice().sort((a, b) => a.localeCompare(b));
             expect(JSON.stringify(testList)).to.equal(JSON.stringify(namesAfterSort))
             expect((JSON.stringify(testList) === JSON.stringify(namesAfterSort))).to.be.true;
-
         })
     });
 
@@ -111,7 +110,7 @@ describe('example Swag Labs app', () => {
         TestSwagHelpers.getNames()
         cy.then(() => {
             let namesAfterSort = TestSwagHelpers.names
-            // namesAfterSort.forEach((name) => cy.log(name + '\n'))
+             namesAfterSort.forEach((name) => cy.log(name + '\n'))
             let testList = namesAfterSort.slice().sort((a, b) => b.localeCompare(a));
             expect(JSON.stringify(testList)).to.equal(JSON.stringify(namesAfterSort))
             expect((JSON.stringify(testList) === JSON.stringify(namesAfterSort))).to.be.true;
