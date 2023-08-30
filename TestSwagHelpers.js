@@ -165,7 +165,7 @@ export const goItemPage = (item) => {
     cy.get('.inventory_details_desc_container button').should('be.enabled')
 }
 
-export const goTheCart = () => {
+export const goToCart = () => {
     cy.get(LOCATORS.cartButton).click()
 
 }

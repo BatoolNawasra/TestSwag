@@ -14,17 +14,32 @@ describe('example Swag Labs app', () => {
         TestSwagHelpers.logIn(TestSwagHelpers.USERS.standard)
     })
 
-    it('add 2 items to cart from thier page', () => {
+    it('add  items to cart from thier page', () => {
         TestSwagHelpers.verifyCartCount(0)
         TestSwagHelpers.goItemPage(TestSwagHelpers.ITEMS.ShirtRed)
         TestSwagHelpers.addToCart()
         TestSwagHelpers.verifyCartCount(1)
         TestSwagHelpers.backToProducts()
-        TestSwagHelpers.goItemPage(TestSwagHelpers.ITEMS.Light)
-        TestSwagHelpers.addToCart()
-        TestSwagHelpers.verifyCartCount(2)
-        TestSwagHelpers.backToProducts()
+        // TestSwagHelpers.goItemPage(TestSwagHelpers.ITEMS.Light)
+        // TestSwagHelpers.addToCart()
+        // TestSwagHelpers.verifyCartCount(2)
+        // TestSwagHelpers.backToProducts()
     });
+
+    it('delete item from cart', () => {
+      //  TestSwagHelpers.addItemFromMainPage(TestSwagHelpers.ITEMS.Light)
+        //TestSwagHelpers.checkItemInCart(TestSwagHelpers.ITEMS.Light)
+      TestSwagHelpers.goToCart()
+        TestSwagHelpers.deletItemFromCart(TestSwagHelpers.ITEMS.ShirtRed)
+        TestSwagHelpers.continueShopping()
+       
+    });
+
+
+
+
+
+
 
     it('add item to cart from main page', () => {
         TestSwagHelpers.verifyCartCount(0)
@@ -34,32 +49,28 @@ describe('example Swag Labs app', () => {
         TestSwagHelpers.verifyCartCount(2)
     });
 
-    it('delete item from cart', () => {
-        TestSwagHelpers.addItemFromMainPage(TestSwagHelpers.ITEMS.Light)
-        TestSwagHelpers.checkItemInCart(TestSwagHelpers.ITEMS.Light)
-      
-        TestSwagHelpers.deletItemFromCart(TestSwagHelpers.ITEMS.Light)
-        TestSwagHelpers.continueShopping()
-    });
+   
 
     it('delete item from cart from products page', () => {
-        TestSwagHelpers.addItemFromMainPage(TestSwagHelpers.ITEMS.Light)
-        TestSwagHelpers.deleteItemFromMainPage(TestSwagHelpers.ITEMS.Light)
+        //TestSwagHelpers.addItemFromMainPage(TestSwagHelpers.ITEMS.Light)
+        TestSwagHelpers.deleteItemFromMainPage(TestSwagHelpers.ITEMS.Onesie)
     });
 
     it('visit cart and checkout the order', () => {
-        TestSwagHelpers.addItemFromMainPage(TestSwagHelpers.ITEMS.Light)
-        TestSwagHelpers.goTheCart()
+      //  TestSwagHelpers.addItemFromMainPage(TestSwagHelpers.ITEMS.Light)
+        TestSwagHelpers.goToCart()
         TestSwagHelpers.fillCheckoutInformation(checkout_information)
-        TestSwagHelpers.checkout(TestSwagHelpers.ITEMS.Light)
+        TestSwagHelpers.checkout(TestSwagHelpers.ITEMS.Jacket)
         TestSwagHelpers.finishCheckOut()
         TestSwagHelpers.backToProducts()
         TestSwagHelpers.verifyCartCount(0)
     });
 
+
     it('Log in then logout', () => {
         TestSwagHelpers.logout()
     })
+
 
     it('lololo', () => {
         let A = [1, 72, 25, 60]

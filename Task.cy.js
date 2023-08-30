@@ -49,7 +49,7 @@ describe('example Swag Labs app', () => {
 
     it('visit cart and checkout the order', () => {
         TestSwagHelpers.addItemFromMainPage(TestSwagHelpers.ITEMS.Light)
-        TestSwagHelpers.goTheCart()
+        TestSwagHelpers.goToCart()
         TestSwagHelpers.fillCheckoutInformation(checkout_information)
         TestSwagHelpers.checkout(TestSwagHelpers.ITEMS.Light)
         TestSwagHelpers.finishCheckOut()
