@@ -234,11 +234,9 @@ export const logout = () => {
         .contains('Logout').click();
     cy.url().should('include', PAGES.testSwagPage);
     cy.get(LOCATORS.logo).contains('Swag Labs').should('be.visible');
-
 }
 
 export const sortProducts = (sortOption) => {
-    // Click to sort products
     cy.get(LOCATORS.sortList)
         .should('contain', sortOption)
         .select(sortOption)
