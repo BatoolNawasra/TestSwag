@@ -58,11 +58,11 @@ export const LOCATORS = {
     cartlist: '.cart_list .cart_item',
     title: '.title',
 
-    checkoutFname: ' #first-name',
-    checkoutLname: ' #last-name',
-    checkoutCode: ' #postal-code',
+    checkoutFname: '#first-name',
+    checkoutLname: '#last-name',
+    checkoutCode: '#postal-code',
 
-    checkoutButton: '[id="back-to-products"]',
+    backToProductsButton: '[id="back-to-products"]',
     finishButton: '[id="finish"]',
     continueShoppingButton: '[id="continue-shopping"]',
     sortList: '[class="product_sort_container"]',
@@ -70,16 +70,15 @@ export const LOCATORS = {
     cartButton: '#shopping_cart_container',
     logo: '.login_logo',
     countinueCheckoutbutton: '#continue',
-
-
-
+    anchor: 'a',
+    addToCartButton: '.inventory_details_desc_container button',
+    checkoutButton: '#checkout'
 }
 
 export const orderPrice = {
     Asinding: 'AS',
     Desinding: 'Ds',
 }
-
 
 export const isArraySorted = (arr, order = orderPrice.Asinding) => {
     length = arr.length;
@@ -116,14 +115,11 @@ export const logIn = (user) => {
     cy.url().should('include', URLS.ProductsPage);
     cy.get(LOCATORS.productsList).should('exist');
     cy.get(LOCATORS.title).should('contain', 'Products')
-
 }
 
 export const backToProducts = () => {
-    cy.get(LOCATORS.checkoutButton).click()
+    cy.get(LOCATORS.backToProductsButton).click()
     cy.get(LOCATORS.title).should('contain', 'Products')
-
-
 }
 
 export const continueShopping = () => {
@@ -140,10 +136,12 @@ export const selectSortOption = (sortOption) => {
 export const checkItemInCart = (item) => {
     cy.get(LOCATORS.cartButton).click()
     cy.get(LOCATORS.title).should('contain', 'Your Cart')
-    cy.contains(item.name).should('be.visible');
-    cy.contains(item.label).should('be.visible')
-    cy.contains(item.price).should('be.visible')
-
+   
+    cy.contains(item.name).should('be.visible')
+    .parent()
+    .parent()
+    .should('contain' , item.label)
+    .should('contain', item.price )
 }
 
 export const finishCheckOut = () => {
@@ -163,25 +161,23 @@ export const goToItemPage = (item) => {
     cy.get(LOCATORS.productsList)
         .contains(item.name)
         .parent()
-        .find('[href="#"]')
+        .find(LOCATORS.anchor)
         // .last() //using name 
         .first()// using img
         .click()
-
     cy.contains(item.name).should('be.visible');
     cy.contains(item.label).should('be.visible')
     cy.contains(item.price).should('be.visible')
-    cy.get('.inventory_details_desc_container button').should('be.enabled')
+    cy.get(LOCATORS.addToCartButton).should('be.enabled')
 }
 
 export const goToCart = () => {
     cy.get(LOCATORS.cartButton).click()
     cy.get(LOCATORS.title).should('contain', 'Your Cart')
-
 }
 
-export const addToCart = () => {
-    cy.get('.inventory_details_desc_container button').click()
+export const addToCartFromProductPage = () => {
+    cy.get(LOCATORS.addToCartButton).click()
 }
 
 export const addItemFromMainPage = (item) => {
@@ -206,27 +202,21 @@ export const deletItemFromCart = (item) => {
         .parent()
         .find('button')
         .click()
-
-
-
-
 }
 
 export const fillCheckoutInformation = (Info) => {
-    cy.get('#checkout').click()
-    //fill personal check out info
+    cy.get(LOCATORS.checkoutButton).click()
     cy.get(LOCATORS.checkoutFname).clear().type(Info.firstName)
     cy.get(LOCATORS.checkoutLname).clear().type(Info.lastName)
     cy.get(LOCATORS.checkoutCode).clear().type(Info.postalCode)
-
 }
 
+
+//must update to checkout many item not only one
 export const checkout = (item) => {
     cy.get(LOCATORS.countinueCheckoutbutton).click()
-
     cy.get('.summary_tax_label').invoke('text').then(taxText => {
         const taxAmount = parseFloat(taxText.replace('Tax: $', ''));
-
         const itemPrice = parseFloat(item.price);
         const itemCount = 1;
         const subtotal = itemPrice * itemCount;
@@ -284,6 +274,4 @@ export const getNames = () => {
         const name = Cypress.$(item).find(LOCATORS.productName).text();
         names.push(name);
     })
-
-
 }

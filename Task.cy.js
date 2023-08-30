@@ -17,11 +17,11 @@ describe('example Swag Labs app', () => {
     it('add 2 items to cart from thier page', () => {
         TestSwagHelpers.verifyCartCount(0)
         TestSwagHelpers.goToItemPage(TestSwagHelpers.ITEMS.ShirtRed)
-        TestSwagHelpers.addToCart()
+        TestSwagHelpers.addToCartFromProductPage()
         TestSwagHelpers.verifyCartCount(1)
         TestSwagHelpers.backToProducts()
         TestSwagHelpers.goToItemPage(TestSwagHelpers.ITEMS.Light)
-        TestSwagHelpers.addToCart()
+        TestSwagHelpers.addToCartFromProductPage()
         TestSwagHelpers.verifyCartCount(2)
         TestSwagHelpers.backToProducts()
     });
